@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>Persons list</h1>
-    <h2> <a href="Add person">Add new person</a> </h2>
+    <h2><a href='/add_person'>Add new person</a></h2>
     <br/><br/>
     <div class="container">
         <table class ="container" border="1">
@@ -17,8 +17,14 @@
                 <th><h1>Author</h1></th>
             </tr>
             <tr th:each ="person : ${persons}">
-                <td th:utext="${person.name}">...</td>
-                <td th:utext="${person.surname}">...</td>
+                <td th:utext="${person.name}"></td>
+                <td th:utext="${person.surname}"></td>
+                <td>
+                    <a th:href="@{/edit_person(id=${person.id})}">edit</a>
+                </td>
+                <td>
+                    <a th:href="@{/delete_person(id=${person.id})}">delete</a>
+                </td>
             </tr>
         </table>
     </div>
