@@ -1,0 +1,23 @@
+"2021-09-05 19:13:02 [main] INFO  b.m.s.SpringPersonApplication -Starting SpringPersonApplication using Java 15.0.4 on DESKTOP-I2IK87H with PID 7332 (D:\Epam\Java\Java2\Lab1\target\classes started by 18141 in D:\Epam\Java\Java2\Lab1)
+""2021-09-05 19:13:02 [main] INFO  b.m.s.SpringPersonApplication -No active profile set, falling back to default profiles: default
+""2021-09-05 19:13:04 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate -Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+""2021-09-05 19:13:04 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate -Finished Spring Data repository scanning in 17 ms. Found 0 JPA repository interfaces.
+""2021-09-05 19:13:06 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer -Tomcat initialized with port(s): 8080 (http)
+""2021-09-05 19:13:06 [main] INFO  o.a.catalina.core.StandardService -Starting service [Tomcat]
+""2021-09-05 19:13:06 [main] INFO  o.a.catalina.core.StandardEngine -Starting Servlet engine: [Apache Tomcat/9.0.52]
+""2021-09-05 19:13:06 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] -Initializing Spring embedded WebApplicationContext
+""2021-09-05 19:13:06 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext -Root WebApplicationContext: initialization completed in 4107 ms
+""2021-09-05 19:13:06 [main] INFO  com.zaxxer.hikari.HikariDataSource -HikariPool-1 - Starting...
+""2021-09-05 19:13:07 [main] INFO  com.zaxxer.hikari.HikariDataSource -HikariPool-1 - Start completed.
+""2021-09-05 19:13:07 [main] INFO  o.h.jpa.internal.util.LogHelper -HHH000204: Processing PersistenceUnitInfo [name: default]
+""2021-09-05 19:13:07 [main] INFO  org.hibernate.Version -HHH000412: Hibernate ORM core version 5.4.32.Final
+""2021-09-05 19:13:08 [main] INFO  o.h.annotations.common.Version -HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+""2021-09-05 19:13:08 [main] INFO  org.hibernate.dialect.Dialect -HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+""2021-09-05 19:13:08 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator -HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+""2021-09-05 19:13:08 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean -Initialized JPA EntityManagerFactory for persistence unit 'default'
+""2021-09-05 19:13:09 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration -spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+""2021-09-05 19:13:09 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer -Tomcat started on port(s): 8080 (http) with context path ''
+""2021-09-05 19:13:09 [main] INFO  b.m.s.SpringPersonApplication -Started SpringPersonApplication in 8.584 seconds (JVM running for 17.528)
+""2021-09-05 19:13:09 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] -Initializing Spring DispatcherServlet 'dispatcherServlet'
+""2021-09-05 19:13:09 [http-nio-8080-exec-1] INFO  b.m.s.controller.PersonController -going to main page
+"
