@@ -22,15 +22,15 @@ create table Users
 (
     Id int primary key not null identity(0, 1),
     RoleId int not null foreign key references Roles(Id),
-    Email varchar(50) not null,
-    EmployeeGroupId int not null foreign key references EmployeeGroups(Id),
+    Email varchar(50) not null unique,
+    EmployeeGroupId int not null foreign key references UserGroups(Id),
     Name varchar(25) not null,
     Surname varchar(25) not null,
-    Middlename varchar(25)
+    MiddleName varchar(25)
 )
 go
 
-create table Message
+create table MessageContexts
 (
     Id int primary key not null identity(0, 1),
     Text nvarchar(2000)
@@ -42,7 +42,7 @@ create table Messages
     Id int primary key not null identity(0, 1),
     SenderId int not null foreign key references Users(Id),
     RecipientId int foreign key references Users(Id),
-    RecipientGroup int foreign key references EmployeeGroups(Id),
-    MessageId int foreign key references Message(Id)
+    RecipientGroup int foreign key references UserGroups(Id),
+    MessageId int foreign key references MessageContexts(Id)
 )
 go

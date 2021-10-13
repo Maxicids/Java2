@@ -1,7 +1,5 @@
 package by.malinka.employeeservice.service;
 
-import by.malinka.employeeservice.entity.MessageContext;
-
 import java.util.List;
 
 public interface MessageContextService {

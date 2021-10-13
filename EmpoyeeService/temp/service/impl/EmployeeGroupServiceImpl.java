@@ -1,6 +1,5 @@
 package by.malinka.employeeservice.service.impl;
 
-import by.malinka.employeeservice.entity.EmployeeGroup;
 import by.malinka.employeeservice.persistence.EmployeeGroupRepository;
 import by.malinka.employeeservice.service.EmployeeGroupService;
 import org.springframework.beans.factory.annotation.Autowired;

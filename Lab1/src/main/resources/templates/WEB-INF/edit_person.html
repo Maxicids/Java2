@@ -6,7 +6,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>New person:</h1>
+    <h1>Edit person:</h1>
     <form th:action="@{/edit_person(id=${id})}"
           th:object="${person_form}" method="POST">
         <p>Name:

@@ -1,48 +1,36 @@
-package by.malinka.empoyeeservice.entity;
+package by.malinka.employeeservice.entity;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.Objects;
 
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
+@Data
+@AllArgsConstructor
 @Entity
 @Table(name = "Users")
 public class User {
+
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name = "Id", insertable = false, updatable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "Id")
+    @JoinColumn(name = "RoleId", referencedColumnName = "Id")
     private Role roleId;
 
-    @Column(name="Email", length=50, nullable=false, unique=true)
+    @Column(name = "Email", length = 50, nullable = false, unique = true)
     private String email;
 
-    @ManyToOne
-    @JoinColumn(name = "Id")
-    private EmployeeGroup employeeGroupId;
 
-    @Column(name="Name", length=25, nullable=false)
+    @Column(name = "Name", length = 25, nullable = false)
     private String name;
-    @Column(name="Surname", length=25, nullable=false)
+    @Column(name = "Surname", length = 25, nullable = false)
     private String surname;
-    @Column(name="MiddleName", length=25, nullable=false)
-    private String middleName;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id);
+    public User() {
+
     }
 }

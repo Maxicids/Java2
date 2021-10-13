@@ -1,6 +1,5 @@
 package by.malinka.employeeservice.service;
 
-import by.malinka.employeeservice.entity.Messages;
 import java.util.List;
 
 public interface MessagesService {
