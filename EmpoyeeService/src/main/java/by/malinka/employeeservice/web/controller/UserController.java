@@ -21,9 +21,10 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/register")
+    @PostMapping("/register")
     public ResponseEntity<?> registerUser() {
-        userService.registerUser(new User(1, new Role(0, "ADMIN"), "max@gmail.com", "b", "v"));
+        var login = request.getParameter("content");
+        //userService.registerUser(new User(1, new Role(0, "ADMIN"), "max@gmail.com", "b", "v"));
         return (ResponseEntity<?>) ResponseEntity.ok();
     }
 
