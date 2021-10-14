@@ -1,7 +1,6 @@
 package by.malinka.employeeservice.entity;
 
 import lombok.*;
-
 import javax.persistence.*;
 
 @Data

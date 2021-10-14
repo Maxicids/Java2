@@ -1,0 +1,13 @@
+package by.malinka.employeeservice.service;
+
+import by.malinka.employeeservice.entity.Role;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+public interface RoleService {
+    Role addRole(Role role);
+    void delete(int id);
+    Role getByRoleName(String name);
+    Role editRole(Role role);
+    Page<Role> findPaginated(Pageable pageable);
+}

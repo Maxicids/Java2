@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -24,27 +25,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User registerUser(User user) {
-        throw new UserAlreadyExistsException("User with email have " + user.getEmail() + " already existed");
-
-//        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-//            throw new UserAlreadyExistsException("User with email have " + user.getEmail() + " already existed");
-//        }
-//        return userRepository.save(user);
+        //throw new UserAlreadyExistsException("User with email have " + user.getEmail() + " already existed");
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+            throw new UserAlreadyExistsException("User with email have " + user.getEmail() + " already existed");
+        }
+        return userRepository.save(user);
     }
 
     @Override
     public void delete(int id) {
-
+        var optionalUser = userRepository.findById(id);
+        optionalUser.ifPresent(userRepository::delete);
     }
 
     @Override
     public User getByEmail(String email) {
-        return null;
+        Optional<User> optionalUser;
+        optionalUser = userRepository.findByEmail(email);
+        return optionalUser.orElse(null);
     }
 
     @Override
     public User editUser(User user) {
-        return null;
+        return userRepository.save(user);
     }
 
     @Override
