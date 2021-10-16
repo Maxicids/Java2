@@ -11,7 +11,6 @@ public class User {
 
     @Id
     @Column(name = "Id", insertable = false, updatable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @ManyToOne
