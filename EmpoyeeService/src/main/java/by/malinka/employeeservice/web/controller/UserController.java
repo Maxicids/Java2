@@ -1,13 +1,22 @@
 package by.malinka.employeeservice.web.controller;
 
-import by.malinka.employeeservice.entity.Role;
 import by.malinka.employeeservice.entity.User;
+import by.malinka.employeeservice.request.UserRequest;
+import by.malinka.employeeservice.service.RoleService;
 import by.malinka.employeeservice.service.UserService;
+import by.malinka.employeeservice.service.exception.user.UserNotFoundException;
+import by.malinka.employeeservice.service.exception.user.PasswordsDoNotMatchException;
+import by.malinka.employeeservice.service.exception.user.UserValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.Objects;
 
 @RestController
 //@CrossOrigin("http")
@@ -15,19 +24,62 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+    private final RoleService roleService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService;
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> registerUser() {
-        //var login = request.getParameter("content");
-        //userService.registerUser(new User(1, new Role(0, "ADMIN"), "max@gmail.com", "b", "v"));
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestParam("email") String email) {
+        var user = userService.getByEmail(email);
+        if (user == null) {
+            throw new UserNotFoundException("User with email: " + email + " does not exist");
+        }
         return (ResponseEntity<?>) ResponseEntity.ok();
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<?> registerUser(
+            @RequestBody @Valid UserRequest userRequest,
+            BindingResult bindingResult
+            ) {
+        if (bindingResult.hasErrors()) {
+            throw new UserValidationException(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
+        }
+        User user = new User();
+        user.setName(userRequest.getName());
+        user.setSurname(userRequest.getSurname());
+        user.setPassword(userRequest.getPassword());
+        user.setEmail(userRequest.getEmail());
+        user.setRoleId(roleService.getByRoleName("ROLE_USER"));
+        user = userService.registerUser(user);
+        System.out.println("tut " + user);
+        return ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/save")
+    public ResponseEntity<?> registerUser(
+
+    ) {
+//        if (!password.equals(repeatedPassword)) {
+//            throw new PasswordsDoNotMatchException("Entered passwords do not match");
+//        }
+//        var user = userService.findById(id);
+//        if (user == null) {
+//            throw new UserNotFoundException("No such user");
+//        }
+//        user.setEmail(email);
+//        user.setName(name);
+//        user.setSurname(surname);
+//        user.setPassword(password);
+//        userService.editUser(user);
+       return (ResponseEntity<?>) ResponseEntity.ok();
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping
     public Page<User> findPaginated(Pageable pageable) {
         return userService.findPaginated(pageable);

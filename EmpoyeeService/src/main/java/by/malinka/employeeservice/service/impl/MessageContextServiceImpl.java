@@ -2,9 +2,7 @@ package by.malinka.employeeservice.service.impl;
 
 import by.malinka.employeeservice.entity.MessageContext;
 import by.malinka.employeeservice.persistence.MessageContextRepository;
-import by.malinka.employeeservice.persistence.UserGroupRepository;
 import by.malinka.employeeservice.service.MessageContextService;
-import by.malinka.employeeservice.service.exception.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

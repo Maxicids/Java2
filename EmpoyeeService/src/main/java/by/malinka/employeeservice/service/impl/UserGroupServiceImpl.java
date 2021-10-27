@@ -3,7 +3,7 @@ package by.malinka.employeeservice.service.impl;
 import by.malinka.employeeservice.entity.UserGroup;
 import by.malinka.employeeservice.persistence.UserGroupRepository;
 import by.malinka.employeeservice.service.UserGroupService;
-import by.malinka.employeeservice.service.exception.UserAlreadyExistsException;
+import by.malinka.employeeservice.service.exception.user.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

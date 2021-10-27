@@ -3,7 +3,7 @@ package by.malinka.employeeservice.service.impl;
 import by.malinka.employeeservice.entity.User;
 import by.malinka.employeeservice.persistence.UserRepository;
 import by.malinka.employeeservice.service.UserService;
-import by.malinka.employeeservice.service.exception.UserAlreadyExistsException;
+import by.malinka.employeeservice.service.exception.user.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,7 +25,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User registerUser(User user) {
-        //throw new UserAlreadyExistsException("User with email have " + user.getEmail() + " already existed");
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             throw new UserAlreadyExistsException("User with email have " + user.getEmail() + " already existed");
         }
@@ -42,6 +41,13 @@ public class UserServiceImpl implements UserService {
     public User getByEmail(String email) {
         Optional<User> optionalUser;
         optionalUser = userRepository.findByEmail(email);
+        return optionalUser.orElse(null);
+    }
+
+    @Override
+    public User findById(int id) {
+        Optional<User> optionalUser;
+        optionalUser = userRepository.findById(id);
         return optionalUser.orElse(null);
     }
 

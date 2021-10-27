@@ -1,11 +1,9 @@
 package by.malinka.employeeservice.service.impl;
 
 import by.malinka.employeeservice.entity.Role;
-import by.malinka.employeeservice.entity.User;
 import by.malinka.employeeservice.persistence.RoleRepository;
-import by.malinka.employeeservice.persistence.UserRepository;
 import by.malinka.employeeservice.service.RoleService;
-import by.malinka.employeeservice.service.exception.UserAlreadyExistsException;
+import by.malinka.employeeservice.service.exception.user.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
