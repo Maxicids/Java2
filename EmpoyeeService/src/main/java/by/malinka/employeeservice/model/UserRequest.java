@@ -1,4 +1,4 @@
-package by.malinka.employeeservice.request;
+package by.malinka.employeeservice.model;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -17,7 +17,7 @@ import java.io.Serializable;
 public class UserRequest implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Email(message = "user.requirements.email")
+    @Email(message = "Email must be email@domain.subdomain")
     @NotNull(message = "Email is required")
     private String email;
 

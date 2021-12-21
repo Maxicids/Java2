@@ -1,9 +1,8 @@
 package by.malinka.employeeservice.entity;
 
-import by.malinka.employeeservice.request.UserRequest;
+import by.malinka.employeeservice.model.UserRequest;
 import lombok.*;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Data
 @AllArgsConstructor
@@ -35,7 +34,10 @@ public class User {
     private String password;
 
     public User(UserRequest userRequest) {
-
+        this.name = userRequest.getName();
+        this.surname = userRequest.getSurname();
+        this.email = userRequest.getEmail();
+        this.password = userRequest.getPassword();
     }
 
 }

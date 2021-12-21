@@ -9,7 +9,7 @@ public interface UserService {
     void delete(int id);
     User getByEmail(String email);
     User findById(int id);
-    //TODO: get all by group
+    User findByName(String name);
     User editUser(User user);
     Page<User> findPaginated(Pageable pageable);
 }

@@ -1,6 +1,23 @@
 create database EmployeeService;
 go
 
+DECLARE @number INT;
+SET @number = 8233;
+ 
+WHILE @number > 0
+    begin
+
+		declare @messageToSend nvarchar(2000) = CONVERT(nvarchar(2000), @number);
+        exec SEND_MESSAGE @fromId = 1, @chatId = 1, @message = @messageToSend;
+		--insert into Messages values (1, 1008, @messageToSend , GETDATE());
+        SET @number = @number - 1
+    end;
+
+use Messenger;
+go
+
+select count(*) from Messages;
+
 use EmployeeService;
 go
 

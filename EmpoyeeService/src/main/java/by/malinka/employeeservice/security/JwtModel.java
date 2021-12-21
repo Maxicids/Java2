@@ -1,5 +1,6 @@
 package by.malinka.employeeservice.security;
 
+import by.malinka.employeeservice.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,11 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class JwtModel {
-    private Long id;
+    private int id;
     private boolean isLoggedIn;
     private String token;
-    private String username;
-    private ApplicationUserRole role;
+    private String email;
+    private Role role;
 
     public JwtModel(boolean isLoggedIn) {
         this.isLoggedIn = isLoggedIn;

@@ -1,12 +1,13 @@
 package by.malinka.employeeservice.web.controller;
 
 import by.malinka.employeeservice.entity.User;
-import by.malinka.employeeservice.request.UserRequest;
+import by.malinka.employeeservice.model.UserRequest;
 import by.malinka.employeeservice.service.RoleService;
 import by.malinka.employeeservice.service.UserService;
 import by.malinka.employeeservice.service.exception.user.UserNotFoundException;
-import by.malinka.employeeservice.service.exception.user.PasswordsDoNotMatchException;
 import by.malinka.employeeservice.service.exception.user.UserValidationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +23,8 @@ import java.util.Objects;
 //@CrossOrigin("http")
 @RequestMapping("/users")
 public class UserController {
+
+    static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     private final UserService userService;
     private final RoleService roleService;
@@ -46,14 +49,11 @@ public class UserController {
             @RequestBody @Valid UserRequest userRequest,
             BindingResult bindingResult
             ) {
+        log.info(userRequest.toString());
         if (bindingResult.hasErrors()) {
             throw new UserValidationException(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
-        User user = new User();
-        user.setName(userRequest.getName());
-        user.setSurname(userRequest.getSurname());
-        user.setPassword(userRequest.getPassword());
-        user.setEmail(userRequest.getEmail());
+        User user = new User(userRequest);
         user.setRoleId(roleService.getByRoleName("ROLE_USER"));
         user = userService.registerUser(user);
         System.out.println("tut " + user);
@@ -61,7 +61,7 @@ public class UserController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> registerUser(
+    public ResponseEntity<?> saveUser(
 
     ) {
 //        if (!password.equals(repeatedPassword)) {
