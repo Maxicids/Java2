@@ -4,10 +4,10 @@ import by.malinka.employeeservice.entity.User;
 import by.malinka.employeeservice.persistence.UserRepository;
 import by.malinka.employeeservice.service.UserService;
 import by.malinka.employeeservice.service.exception.user.UserAlreadyExistsException;
+import by.malinka.employeeservice.service.exception.user.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,16 +15,13 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -32,13 +29,12 @@ public class UserServiceImpl implements UserService {
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             throw new UserAlreadyExistsException("User with email have " + user.getEmail() + " already existed");
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
     @Override
     public void delete(int id) {
-        var optionalUser = userRepository.findById(id);
+        Optional<User> optionalUser = userRepository.findById(id);
         optionalUser.ifPresent(userRepository::delete);
     }
 
@@ -51,16 +47,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByName(String name) {
-        Optional<User> optionalUser;
-        optionalUser = userRepository.findByName(name);
-        return optionalUser.orElse(null);
+        return userRepository.findByName(name).orElseThrow(() -> new UserNotFoundException("User with name " + name + " not found"));
     }
 
     @Override
     public User findById(int id) {
-        Optional<User> optionalUser;
-        optionalUser = userRepository.findById(id);
-        return optionalUser.orElse(null);
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User with id " + id + " not found"));
     }
 
     @Override

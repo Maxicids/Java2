@@ -1,6 +1,7 @@
 package by.malinka.employeeservice.service.impl;
 
 import by.malinka.employeeservice.entity.Message;
+import by.malinka.employeeservice.entity.User;
 import by.malinka.employeeservice.persistence.MessageContextRepository;
 import by.malinka.employeeservice.persistence.MessageRepository;
 import by.malinka.employeeservice.service.MessageContextService;
@@ -11,9 +12,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
-@Transactional
 public class MessageServiceImpl implements MessageService {
     private final MessageRepository messageRepository;
 
@@ -29,8 +30,18 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public void delete(int id) {
-        var optionalMessage = messageRepository.findById(id);
+        Optional<Message> optionalMessage = messageRepository.findById(id);
         optionalMessage.ifPresent(messageRepository::delete);
+    }
+
+    @Override
+    public Optional<Message> findById(int id) {
+        return messageRepository.findById(id);
+    }
+
+    @Override
+    public Page<Message> findByRecipientId(User senderId, Pageable pageable) {
+        return messageRepository.findByRecipientId(senderId, pageable);
     }
 
     @Override

@@ -25,9 +25,15 @@ public class Message {
 
     @ManyToOne
     @JoinColumn(name = "MessageId", referencedColumnName = "Id")
-    private Message messageId;
+    private MessageContext messageId;
 
     public Message() {
 
+    }
+
+    public Message(User senderId, User recipientId, MessageContext messageId) {
+        this.senderId = senderId;
+        this.recipientId = recipientId;
+        this.messageId = messageId;
     }
 }

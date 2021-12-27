@@ -13,7 +13,6 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class RoleServiceImpl implements RoleService {
     private final RoleRepository roleRepository;
 
@@ -32,7 +31,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void delete(int id) {
-        var optionalUser = roleRepository.findById(id);
+        Optional<Role> optionalUser = roleRepository.findById(id);
         optionalUser.ifPresent(roleRepository::delete);
     }
 

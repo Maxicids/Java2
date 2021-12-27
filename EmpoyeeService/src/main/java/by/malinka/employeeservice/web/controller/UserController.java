@@ -2,6 +2,9 @@ package by.malinka.employeeservice.web.controller;
 
 import by.malinka.employeeservice.entity.User;
 import by.malinka.employeeservice.model.UserRequest;
+import by.malinka.employeeservice.model.UserResponse;
+import by.malinka.employeeservice.security.JwtModel;
+import by.malinka.employeeservice.security.JwtSecurityService;
 import by.malinka.employeeservice.service.RoleService;
 import by.malinka.employeeservice.service.UserService;
 import by.malinka.employeeservice.service.exception.user.UserNotFoundException;
@@ -13,39 +16,53 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.Objects;
 
 @RestController
-//@CrossOrigin("http")
 @RequestMapping("/users")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
     static final Logger log = LoggerFactory.getLogger(UserController.class);
 
+    private final JwtSecurityService securityService;
     private final UserService userService;
     private final RoleService roleService;
 
     @Autowired
-    public UserController(UserService userService, RoleService roleService) {
+    public UserController(UserService userService, RoleService roleService, JwtSecurityService securityService) {
+        this.securityService = securityService;
         this.userService = userService;
         this.roleService = roleService;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestParam("email") String email) {
-        var user = userService.getByEmail(email);
-        if (user == null) {
-            throw new UserNotFoundException("User with email: " + email + " does not exist");
+    public ResponseEntity<?> login(HttpServletRequest request, HttpServletResponse response,
+                                   @RequestBody @Valid UserRequest userRequest,
+                                   BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new BadCredentialsException("Invalid data");
         }
-        return (ResponseEntity<?>) ResponseEntity.ok();
+
+        try {
+            JwtModel model = securityService.autologin(request, response,
+                    userRequest.getEmail(), userRequest.getPassword());
+            return ResponseEntity.ok(model);
+        } catch (Exception e) {
+            throw new BadCredentialsException("Invalid data");
+        }
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(
+            HttpServletRequest request, HttpServletResponse response,
             @RequestBody @Valid UserRequest userRequest,
             BindingResult bindingResult
             ) {
@@ -54,34 +71,43 @@ public class UserController {
             throw new UserValidationException(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
         User user = new User(userRequest);
-        user.setRoleId(roleService.getByRoleName("ROLE_USER"));
-        user = userService.registerUser(user);
-        System.out.println("tut " + user);
+        user.setRoleId(roleService.getByRoleName("USER"));
+        String password = user.getPassword();
+        user = userService.registerUser(user.setPassword(securityService.getHashedPassword(password)));
+        JwtModel model = securityService.autologin(request, response,
+                user.getEmail(), password);
+        return ResponseEntity.ok(model);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> update(
+        @RequestBody @Valid UserRequest userRequest,
+        BindingResult bindingResult) {
+        log.info(userRequest.toString());
+        if (bindingResult.hasErrors()) {
+            throw new UserValidationException(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
+        }
+        User user = userService.getByEmail(userRequest.getEmail());
+        user.setName(userRequest.getName());
+        user.setSurname(userRequest.getSurname());
+        user.setPassword(userRequest.getPassword());
+        userService.editUser(user);
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping("/save")
-    public ResponseEntity<?> saveUser(
-
-    ) {
-//        if (!password.equals(repeatedPassword)) {
-//            throw new PasswordsDoNotMatchException("Entered passwords do not match");
-//        }
-//        var user = userService.findById(id);
-//        if (user == null) {
-//            throw new UserNotFoundException("No such user");
-//        }
-//        user.setEmail(email);
-//        user.setName(name);
-//        user.setSurname(surname);
-//        user.setPassword(password);
-//        userService.editUser(user);
-       return (ResponseEntity<?>) ResponseEntity.ok();
+    @GetMapping("/findByEmail")
+    public ResponseEntity<?> findByEmail(@RequestParam("email") String email) {
+        return ResponseEntity.ok(new UserResponse(userService.getByEmail(email)));
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findById(@PathVariable int id) {
+        return ResponseEntity.ok(new UserResponse(userService.findById(id)));
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping
-    public Page<User> findPaginated(Pageable pageable) {
+    public Page<User> findAll(Pageable pageable) {
         return userService.findPaginated(pageable);
     }
 }

@@ -9,9 +9,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
-@Transactional
 public class MessageContextServiceImpl implements MessageContextService {
     private final MessageContextRepository messageContextRepository;
 
@@ -27,7 +27,7 @@ public class MessageContextServiceImpl implements MessageContextService {
 
     @Override
     public void delete(int id) {
-        var optionalMessageContext = messageContextRepository.findById(id);
+        Optional<MessageContext> optionalMessageContext = messageContextRepository.findById(id);
         optionalMessageContext.ifPresent(messageContextRepository::delete);
     }
 

@@ -21,7 +21,7 @@ public class UserGroupUser implements Serializable {
     @PrimaryKeyJoinColumn
     @ManyToOne
     @JoinColumn(name = "UserGroupId", referencedColumnName = "Id")
-    private User userGroupId;
+    private UserGroup userGroupId;
 
     public UserGroupUser() {
 

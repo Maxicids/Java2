@@ -13,7 +13,6 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class UserGroupServiceImpl implements UserGroupService {
     private final UserGroupRepository userGroupRepository;
 
@@ -32,7 +31,7 @@ public class UserGroupServiceImpl implements UserGroupService {
 
     @Override
     public void delete(int id) {
-        var optionalUserGroup = userGroupRepository.findById(id);
+        Optional<UserGroup> optionalUserGroup = userGroupRepository.findById(id);
         optionalUserGroup.ifPresent(userGroupRepository::delete);
     }
 
@@ -40,6 +39,13 @@ public class UserGroupServiceImpl implements UserGroupService {
     public UserGroup getByGroupName(String groupName) {
         Optional<UserGroup> optionalUserGroup;
         optionalUserGroup = userGroupRepository.findByGroupName(groupName);
+        return optionalUserGroup.orElse(null);
+    }
+
+    @Override
+    public UserGroup getById(int id) {
+        Optional<UserGroup> optionalUserGroup;
+        optionalUserGroup = userGroupRepository.findById(id);
         return optionalUserGroup.orElse(null);
     }
 

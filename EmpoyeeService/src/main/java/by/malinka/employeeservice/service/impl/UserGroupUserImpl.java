@@ -1,8 +1,11 @@
 package by.malinka.employeeservice.service.impl;
 
 import by.malinka.employeeservice.entity.User;
+import by.malinka.employeeservice.entity.UserGroup;
 import by.malinka.employeeservice.entity.UserGroupUser;
+import by.malinka.employeeservice.persistence.UserGroupRepository;
 import by.malinka.employeeservice.persistence.UserGroupUserRepository;
+import by.malinka.employeeservice.persistence.UserRepository;
 import by.malinka.employeeservice.service.UserGroupUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,14 +13,20 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
-@Transactional
 public class UserGroupUserImpl implements UserGroupUserService {
     private final UserGroupUserRepository userGroupUserRepository;
+    private final UserGroupRepository userGroupRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public UserGroupUserImpl(UserGroupUserRepository userGroupUserRepository) {
+    public UserGroupUserImpl(UserGroupUserRepository userGroupUserRepository,
+                             UserGroupRepository userGroupRepository,
+                             UserRepository userRepository) {
+        this.userGroupRepository = userGroupRepository;
+        this.userRepository = userRepository;
         this.userGroupUserRepository = userGroupUserRepository;
     }
 
@@ -28,8 +37,15 @@ public class UserGroupUserImpl implements UserGroupUserService {
 
     @Override
     public void delete(int id) {
-        var optionalUserGroupUser = userGroupUserRepository.findById(id);
+        Optional<UserGroupUser> optionalUserGroupUser = userGroupUserRepository.findById(id);
         optionalUserGroupUser.ifPresent(userGroupUserRepository::delete);
+    }
+
+    @Override
+    public void removeUser(int groupId, int userId) {
+        userGroupUserRepository.deleteByUserGroupIdAndUserId(
+                userGroupRepository.findById(groupId).get(), userRepository.findById(userId).get()
+        );
     }
 
     @Override
@@ -38,8 +54,8 @@ public class UserGroupUserImpl implements UserGroupUserService {
     }
 
     @Override
-    public Page<UserGroupUser> getAllUsersInGroup(User user, Pageable pageable) {
-        return userGroupUserRepository.findAllByUserGroupId(user ,pageable);
+    public Page<UserGroupUser> getAllUsersInGroup(UserGroup userGroup, Pageable pageable) {
+        return userGroupUserRepository.findAllByUserGroupId(userGroup ,pageable);
     }
 
     @Override

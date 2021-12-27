@@ -8,6 +8,7 @@ public interface UserGroupService {
     UserGroup addGroup(UserGroup userGroup);
     void delete(int id);
     UserGroup getByGroupName(String groupName);
+    UserGroup getById(int id);
     UserGroup editUserGroup(UserGroup userGroup);
     Page<UserGroup> findPaginated(Pageable pageable);
 }

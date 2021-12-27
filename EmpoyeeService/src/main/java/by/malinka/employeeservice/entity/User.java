@@ -2,9 +2,12 @@ package by.malinka.employeeservice.entity;
 
 import by.malinka.employeeservice.model.UserRequest;
 import lombok.*;
+import lombok.experimental.Accessors;
+
 import javax.persistence.*;
 
 @Data
+@Accessors(chain = true)
 @AllArgsConstructor
 @Entity
 @NoArgsConstructor

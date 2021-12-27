@@ -22,4 +22,8 @@ public class UserGroup {
     public UserGroup() {
 
     }
+
+    public UserGroup(String groupName) {
+        this.groupName = groupName;
+    }
 }
