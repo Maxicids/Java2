@@ -4,13 +4,20 @@ import {connect} from 'react-redux';
 import {Card, Row, Col, Form, Button, InputGroup, FormControl, Alert} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faSignInAlt, faUndo, faEnvelope, faLock, faArrowRight} from '@fortawesome/free-solid-svg-icons';
+
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import AuthService from "../services/authService";
 
 import {authenticateUser} from '../services/index';
 
+
+
 class Login extends React.Component {
 
+    historyD = () => {
+        return useNavigate();
+    }
     constructor(props) {
         super(props);
         this.state = this.initialState;
@@ -37,9 +44,19 @@ class Login extends React.Component {
 
     validateUser = () => {
         this.props.authenticateUser(this.state.email, this.state.password);
+        //     .then(
+        //     () => {
+        //         this.props.history.push("/");
+        //         window.location.reload();
+        //     }
+        // );
         setTimeout(() => {
             if(this.props.auth.isLoggedIn) {
-                return this.props.history.push("/");
+                //const { history } = this.context;
+                console.log(this)
+                console.log(this.historyD())
+                //return this.historyD().navigate("/thePath")
+                //return this.props.history.push("/");
             } else {
                 this.setState({"error":"Invalid email and password"});
             }
