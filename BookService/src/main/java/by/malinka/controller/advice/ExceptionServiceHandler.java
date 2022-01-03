@@ -2,6 +2,7 @@ package by.malinka.controller.advice;
 
 import by.malinka.controller.Response;
 import by.malinka.service.exception.book.BookNotFoundException;
+import by.malinka.service.exception.book.BookValidationException;
 import by.malinka.service.exception.cart.CartNotFoundException;
 import by.malinka.service.exception.cart.CartValidationException;
 import by.malinka.service.exception.user.UserValidationException;
@@ -34,6 +35,12 @@ public class ExceptionServiceHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(BookNotFoundException.class)
     public Response bookNotFoundException(BookNotFoundException exception) {
+        return new Response(exception.getExceptionMessage(), 400);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BookValidationException.class)
+    public Response bookValidationException(BookValidationException exception) {
         return new Response(exception.getExceptionMessage(), 400);
     }
 }

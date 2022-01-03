@@ -140,14 +140,15 @@ class Book extends Component {
     };
     this.props.updateBook(book);
     setTimeout(() => {
-      if (this.props.bookObject.book != null) {
+      if (this.props.bookObject.book !== "") {
         this.setState({ show: true, method: "put" });
         setTimeout(() => this.setState({ show: false }), 3000);
+        this.setState(this.initialState);
       } else {
         this.setState({ show: false });
+        alert(this.props.bookObject.error.response.data.message);
       }
     }, 2000);
-    this.setState(this.initialState);
   };
 
   bookChange = (event) => {

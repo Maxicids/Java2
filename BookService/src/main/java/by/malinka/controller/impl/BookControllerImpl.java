@@ -3,7 +3,7 @@ package by.malinka.controller.impl;
 import java.util.*;
 
 import by.malinka.service.exception.book.BookNotFoundException;
-import by.malinka.service.exception.user.UserValidationException;
+import by.malinka.service.exception.book.BookValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -64,7 +64,7 @@ public class BookControllerImpl implements Controller<Book> {
 	@Override
 	public ResponseEntity<Book> save(@Valid Book book, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
-			throw new UserValidationException(
+			throw new BookValidationException(
 					Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage()
 			);
 		}
@@ -74,7 +74,7 @@ public class BookControllerImpl implements Controller<Book> {
 	@Override
 	public ResponseEntity<Book> update(@Valid Book book, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
-			throw new UserValidationException(
+			throw new BookValidationException(
 					Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage()
 			);
 		}

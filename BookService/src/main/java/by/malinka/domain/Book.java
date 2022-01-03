@@ -34,7 +34,7 @@ public class Book {
 	@Column(nullable = false)
 	private Long isbnNumber;
 
-	@Positive
+	@Positive(message = "Price must be greater than 0")
 	@NotNull
 	@Column(nullable = false)
 	private Double price;

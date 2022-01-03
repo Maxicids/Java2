@@ -115,14 +115,15 @@ class AddBook extends Component {
 
         this.props.saveBook(book);
         setTimeout(() => {
-            if (this.props.bookObject.book != null) {
+            if (this.props.bookObject.book !== "") {
                 this.setState({ show: true, method: "post" });
                 setTimeout(() => this.setState({ show: false }), 3000);
+                this.setState(this.initialState);
             } else {
                 this.setState({ show: false });
+                alert(this.props.bookObject.error.response.data.message);
             }
         }, 2000);
-        this.setState(this.initialState);
     };
 
     updateBook = (event) => {
