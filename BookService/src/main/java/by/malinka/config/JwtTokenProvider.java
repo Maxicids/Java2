@@ -32,16 +32,21 @@ public class JwtTokenProvider implements Serializable {
 		secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
 	}
 
-	private long validityInMilliseconds = 50 * 60 * 60 * 60; // 2 minute
+
+	private final UserDetailsService userDetailsService;
 
 	@Autowired
-	private UserDetailsService userDetailsService;
+	public JwtTokenProvider(UserDetailsService userDetailsService) {
+		this.userDetailsService = userDetailsService;
+	}
 
 	public String createToken(String username, Role role) {
 		Claims claims = Jwts.claims().setSubject(username);
 		claims.put("auth", role);
 
 		Date now = new Date();
+		// 180/2 minute
+		long validityInMilliseconds = 50 * 60 * 60 * 60;
 		return Jwts.builder().setClaims(claims).setIssuedAt(now)
 				.setExpiration(new Date(now.getTime() + validityInMilliseconds))
 				.signWith(SignatureAlgorithm.HS256, secretKey).compact();

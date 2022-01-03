@@ -87,6 +87,7 @@ export const fetchLanguages = () => {
     axios
       .get("http://localhost:8081/rest/books/languages")
       .then((response) => {
+        console.log(response);
         dispatch({
           type: BT.LANGUAGES_SUCCESS,
           payload: response.data,
@@ -109,6 +110,7 @@ export const fetchGenres = () => {
     axios
       .get("http://localhost:8081/rest/books/genres")
       .then((response) => {
+        console.log(response.data);
         dispatch({
           type: BT.GENRES_SUCCESS,
           payload: response.data,

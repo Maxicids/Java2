@@ -1,6 +1,10 @@
 package by.malinka.domain;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 @Entity
 @Table(name = "BOOKS")
@@ -11,24 +15,37 @@ public class Book {
 	@Column(name = "id", insertable = false, updatable = false)
 	private Long id;
 
+	@Length(max = 255)
+	@NotNull
 	@Column(nullable = false)
 	private String title;
 
+	@Length(max = 255)
+	@NotNull
 	@Column(nullable = false)
 	private String author;
 
+	@Length(max = 255)
+	@NotNull
 	@Column(nullable = false)
 	private String coverPhotoURL;
 
+	@NotNull
 	@Column(nullable = false)
 	private Long isbnNumber;
 
+	@Positive
+	@NotNull
 	@Column(nullable = false)
 	private Double price;
 
+	@Length(max = 255)
+	@NotNull
 	@Column(nullable = false)
 	private String language;
 
+	@Length(max = 255)
+	@NotNull
 	@Column(nullable = false)
 	private String genre;
 

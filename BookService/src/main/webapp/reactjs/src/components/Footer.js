@@ -14,7 +14,7 @@ const Footer = () => {
       <Container>
         <Col lg={12} className="text-center text-muted">
           <div>
-            {fullYear}-{fullYear + 1}, All Rights Reserved by Almighty Java
+            {fullYear}-{fullYear + 1}, All Rights Reserved by Maxicids
           </div>
         </Col>
       </Container>

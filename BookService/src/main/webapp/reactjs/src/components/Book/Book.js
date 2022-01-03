@@ -1,13 +1,7 @@
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-import {
-  saveBook,
-  fetchBook,
-  updateBook,
-  fetchLanguages,
-  fetchGenres,
-} from "../../services/index";
+import {saveBook, fetchBook, updateBook, fetchLanguages, fetchGenres,} from "../../services/index";
 
 import { Card, Form, Button, Col, InputGroup, Image } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -43,11 +37,11 @@ class Book extends Component {
   };
 
   componentDidMount() {
+    this.findAllLanguages();
     const bookId = +this.props.match.params.id;
     if (bookId) {
       this.findBookById(bookId);
     }
-    this.findAllLanguages();
   }
 
   findAllLanguages = () => {
@@ -57,14 +51,14 @@ class Book extends Component {
       if (bookLanguages) {
         this.setState({
           languages: [{ value: "", display: "Select Language" }].concat(
-            bookLanguages.map((language) => {
-              return { value: language, display: language };
-            })
+              bookLanguages.map((language) => {
+                return { value: language, display: language };
+              })
           ),
         });
         this.findAllGenres();
       }
-    }, 100);
+    }, 2000);
   };
 
   findAllGenres = () => {
@@ -74,13 +68,13 @@ class Book extends Component {
       if (bookGenres) {
         this.setState({
           genres: [{ value: "", display: "Select Genre" }].concat(
-            bookGenres.map((genre) => {
-              return { value: genre, display: genre };
-            })
+              bookGenres.map((genre) => {
+                return { value: genre, display: genre };
+              })
           ),
         });
       }
-    }, 100);
+    }, 2000);
   };
 
   findBookById = (bookId) => {
@@ -168,172 +162,171 @@ class Book extends Component {
 
   render() {
     const { title, author, coverPhotoURL, isbnNumber, price, language, genre } =
-      this.state;
+        this.state;
 
     return (
-      <div>
-        <div style={{ display: this.state.show ? "block" : "none" }}>
-          <MyToast
-            show={this.state.show}
-            message={
-              this.state.method === "put"
-                ? "Book Updated Successfully."
-                : "Book Saved Successfully."
-            }
-            type={"success"}
-          />
-        </div>
-        <Card className={"border border-dark bg-dark text-white"}>
-          <Card.Header>
-            <FontAwesomeIcon icon={this.state.id ? faEdit : faPlusSquare} />{" "}
-            {this.state.id ? "Update Book" : "Add New Book"}
-          </Card.Header>
-          <Form
-            onReset={this.resetBook}
-            onSubmit={this.state.id ? this.updateBook : this.submitBook}
-            id="bookFormId"
-          >
-            <Card.Body>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGridTitle">
-                  <Form.Label>Title</Form.Label>
-                  <Form.Control
-                    required
-                    autoComplete="off"
-                    type="test"
-                    name="title"
-                    value={title}
-                    onChange={this.bookChange}
-                    className={"bg-dark text-white"}
-                    placeholder="Enter Book Title"
-                  />
-                </Form.Group>
-                <Form.Group as={Col} controlId="formGridAuthor">
-                  <Form.Label>Author</Form.Label>
-                  <Form.Control
-                    required
-                    autoComplete="off"
-                    type="test"
-                    name="author"
-                    value={author}
-                    onChange={this.bookChange}
-                    className={"bg-dark text-white"}
-                    placeholder="Enter Book Author"
-                  />
-                </Form.Group>
-              </Form.Row>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGridCoverPhotoURL">
-                  <Form.Label>Cover Photo URL</Form.Label>
-                  <InputGroup>
+        <div>
+          <div style={{ display: this.state.show ? "block" : "none" }}>
+            <MyToast
+                show={this.state.show}
+                message={"Book Updated Successfully."}
+                type={"success"}
+            />
+          </div>
+          <Card className={"border border-dark bg-dark text-white"}>
+            <Card.Header>
+              <FontAwesomeIcon icon={this.state.id ? faEdit : faPlusSquare} />{" "}
+              {"Update Book"}
+            </Card.Header>
+            <Form
+                onSubmit={ this.updateBook}
+                id="bookFormId"
+            >
+              <Card.Body>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridTitle">
+                    <Form.Label>Title</Form.Label>
                     <Form.Control
-                      required
-                      autoComplete="off"
-                      type="test"
-                      name="coverPhotoURL"
-                      value={coverPhotoURL}
-                      onChange={this.bookChange}
-                      className={"bg-dark text-white"}
-                      placeholder="Enter Book Cover Photo URL"
+                        required
+                        autoComplete="off"
+                        type="test"
+                        name="title"
+                        value={title || ''}
+                        onChange={this.bookChange}
+                        className={"bg-dark text-white"}
+                        placeholder="Enter Book Title"
                     />
-                    <InputGroup.Append>
-                      {this.state.coverPhotoURL !== "" && (
-                        <Image
-                          src={this.state.coverPhotoURL}
-                          roundedRight
-                          width="40"
-                          height="38"
-                        />
-                      )}
-                    </InputGroup.Append>
-                  </InputGroup>
-                </Form.Group>
-                <Form.Group as={Col} controlId="formGridISBNNumber">
-                  <Form.Label>ISBN Number</Form.Label>
-                  <Form.Control
-                    required
-                    autoComplete="off"
-                    type="test"
-                    name="isbnNumber"
-                    value={isbnNumber}
-                    onChange={this.bookChange}
-                    className={"bg-dark text-white"}
-                    placeholder="Enter Book ISBN Number"
-                  />
-                </Form.Group>
-              </Form.Row>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGridPrice">
-                  <Form.Label>Price</Form.Label>
-                  <Form.Control
-                    required
-                    autoComplete="off"
-                    type="test"
-                    name="price"
-                    value={price}
-                    onChange={this.bookChange}
-                    className={"bg-dark text-white"}
-                    placeholder="Enter Book Price"
-                  />
-                </Form.Group>
-                <Form.Group as={Col} controlId="formGridLanguage">
-                  <Form.Label>Language</Form.Label>
-                  <Form.Control
-                    required
-                    as="select"
-                    custom
-                    onChange={this.bookChange}
-                    name="language"
-                    value={language}
-                    className={"bg-dark text-white"}
-                  >
-                    {this.state.languages.map((language) => (
-                      <option key={language.value} value={language.value}>
-                        {language.display}
-                      </option>
-                    ))}
-                  </Form.Control>
-                </Form.Group>
-                <Form.Group as={Col} controlId="formGridGenre">
-                  <Form.Label>Genre</Form.Label>
-                  <Form.Control
-                    required
-                    as="select"
-                    custom
-                    onChange={this.bookChange}
-                    name="genre"
-                    value={genre}
-                    className={"bg-dark text-white"}
-                  >
-                    {this.state.genres.map((genre) => (
-                      <option key={genre.value} value={genre.value}>
-                        {genre.display}
-                      </option>
-                    ))}
-                  </Form.Control>
-                </Form.Group>
-              </Form.Row>
-            </Card.Body>
-            <Card.Footer style={{ textAlign: "right" }}>
-              <Button size="sm" variant="success" type="submit">
-                <FontAwesomeIcon icon={faSave} />{" "}
-                {this.state.id ? "Update" : "Save"}
-              </Button>{" "}
-              <Button size="sm" variant="info" type="reset">
-                <FontAwesomeIcon icon={faUndo} /> Reset
-              </Button>{" "}
-              <Button
-                size="sm"
-                variant="info"
-                type="button"
-                onClick={() => this.bookList()}
-              >
-                <FontAwesomeIcon icon={faList} /> Book List
-              </Button>
-            </Card.Footer>
-          </Form>
-        </Card>
-      </div>
+                  </Form.Group>
+                  <Form.Group as={Col} controlId="formGridAuthor">
+                    <Form.Label>Author</Form.Label>
+                    <Form.Control
+                        required
+                        autoComplete="off"
+                        type="test"
+                        name="author"
+                        value={author || ''}
+                        onChange={this.bookChange}
+                        className={"bg-dark text-white"}
+                        placeholder="Enter Book Author"
+                    />
+                  </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridCoverPhotoURL">
+                    <Form.Label>Cover Photo URL</Form.Label>
+                    <InputGroup>
+                      <Form.Control
+                          required
+                          autoComplete="off"
+                          type="test"
+                          name="coverPhotoURL"
+                          value={coverPhotoURL || ''}
+                          onChange={this.bookChange}
+                          className={"bg-dark text-white"}
+                          placeholder="Enter Book Cover Photo URL"
+                      />
+                      <InputGroup.Append>
+                        {this.state.coverPhotoURL !== "" && (
+                            <Image
+                                src={this.state.coverPhotoURL}
+                                width="40"
+                                height="38"
+                            />
+                        )}
+                      </InputGroup.Append>
+                    </InputGroup>
+                  </Form.Group>
+                  <Form.Group as={Col} controlId="formGridISBNNumber">
+                    <Form.Label>ISBN Number</Form.Label>
+                    <Form.Control
+                        required
+                        autoComplete="off"
+                        type="test"
+                        name="isbnNumber"
+                        value={isbnNumber || ''}
+                        onChange={this.bookChange}
+                        className={"bg-dark text-white"}
+                        placeholder="Enter Book ISBN Number"
+                    />
+                  </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridPrice">
+                    <Form.Label>Price</Form.Label>
+                    <Form.Control
+                        required
+                        autoComplete="off"
+                        type="test"
+                        name="price"
+                        value={price || ''}
+                        onChange={this.bookChange}
+                        className={"bg-dark text-white"}
+                        placeholder="Enter Book Price"
+                    />
+                  </Form.Group>
+                  <Form.Group as={Col} controlId="formGridLanguage">
+                    <Form.Label>Language</Form.Label>
+                    <Form.Control
+                        required
+                        as="select"
+                        custom
+                        onChange={this.bookChange}
+                        name="language"
+                        value={language || ''}
+                        className={"bg-dark text-white"}
+                    >
+                      {<option key={"English"} value={"English"}>English</option>}
+                      {<option key={"Russian"} value={"Russian"}>Russian</option>}
+                      {<option key={"French"} value={"French"}>French</option>}
+                      {<option key={"Portuguese"} value={"Portuguese"}>Portuguese</option>}
+                      {<option key={"Hindi"} value={"Hindi"}>Hindi</option>}
+                      {<option key={"Arabic"} value={"Arabic"}>Arabic</option>}
+                      {<option key={"Spanish"} value={"Spanish"}>Spanish</option>}
+                      {<option key={"Chinese"} value={"Chinese"}>Chinese</option>}
+                    </Form.Control>
+                  </Form.Group>
+                  <Form.Group as={Col} controlId="formGridGenre">
+                    <Form.Label>Genre</Form.Label>
+                    <Form.Control
+                        required
+                        as="select"
+                        custom
+                        onChange={this.bookChange}
+                        name="genre"
+                        value={genre || ''}
+                        className={"bg-dark text-white"}
+                    >
+                      {<option key={"Technology"} value={"Technology"}>Technology</option>}
+                      {<option key={"Science"} value={"Science"}>Science</option>}
+                      {<option key={"History"} value={"History"}>History</option>}
+                      {<option key={"Fantasy"} value={"Fantasy"}>Fantasy</option>}
+                      {<option key={"Biography"} value={"Biography"}>Biography</option>}
+                      {<option key={"Horror"} value={"Horror"}>Horror</option>}
+                      {<option key={"Romance"} value={"Romance"}>Romance</option>}
+                    </Form.Control>
+                  </Form.Group>
+                </Form.Row>
+              </Card.Body>
+              <Card.Footer style={{ textAlign: "right" }}>
+                <Button size="sm" variant="success" type="submit">
+                  <FontAwesomeIcon icon={faSave} />{" "}
+                  {this.state.id ? "Update" : "Save"}
+                </Button>{" "}
+                <Button size="sm" variant="info" type="reset">
+                  <FontAwesomeIcon icon={faUndo} /> Reset
+                </Button>{" "}
+                <Button
+                    size="sm"
+                    variant="info"
+                    type="button"
+                    onClick={() => this.bookList()}
+                >
+                  <FontAwesomeIcon icon={faList} /> Book List
+                </Button>
+              </Card.Footer>
+            </Form>
+          </Card>
+        </div>
     );
   }
 }

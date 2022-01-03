@@ -4,27 +4,9 @@ import { connect } from "react-redux";
 import { deleteBook } from "../../services/index";
 
 import "./../../assets/css/Style.css";
-import {
-  Card,
-  Table,
-  Image,
-  ButtonGroup,
-  Button,
-  InputGroup,
-  FormControl,
-} from "react-bootstrap";
+import {Card, Table, Image, ButtonGroup, Button, InputGroup, FormControl,} from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faList,
-  faEdit,
-  faTrash,
-  faStepBackward,
-  faFastBackward,
-  faStepForward,
-  faFastForward,
-  faSearch,
-  faTimes,
-} from "@fortawesome/free-solid-svg-icons";
+import {faList, faEdit, faTrash, faStepBackward, faFastBackward, faStepForward, faFastForward, faSearch, faTimes,} from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import MyToast from "../MyToast";
 import axios from "axios";
@@ -315,7 +297,7 @@ class BookList extends Component {
                     <Button
                       type="button"
                       variant="outline-info"
-                      disabled={currentPage === 1 ? true : false}
+                      disabled={currentPage === 1}
                       onClick={this.firstPage}
                     >
                       <FontAwesomeIcon icon={faFastBackward} /> First
@@ -323,7 +305,7 @@ class BookList extends Component {
                     <Button
                       type="button"
                       variant="outline-info"
-                      disabled={currentPage === 1 ? true : false}
+                      disabled={currentPage === 1}
                       onClick={this.prevPage}
                     >
                       <FontAwesomeIcon icon={faStepBackward} /> Prev
@@ -339,7 +321,7 @@ class BookList extends Component {
                     <Button
                       type="button"
                       variant="outline-info"
-                      disabled={currentPage === totalPages ? true : false}
+                      disabled={currentPage === totalPages}
                       onClick={this.nextPage}
                     >
                       <FontAwesomeIcon icon={faStepForward} /> Next
@@ -347,7 +329,7 @@ class BookList extends Component {
                     <Button
                       type="button"
                       variant="outline-info"
-                      disabled={currentPage === totalPages ? true : false}
+                      disabled={currentPage === totalPages}
                       onClick={this.lastPage}
                     >
                       <FontAwesomeIcon icon={faFastForward} /> Last

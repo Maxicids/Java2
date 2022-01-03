@@ -13,6 +13,9 @@ import Register from "./components/User/Register";
 import Login from "./components/User/Login";
 import Footer from "./components/Footer";
 import Home from "./components/Home";
+import CartList from "./components/Cart/CartList";
+import AddBook from "./components/Book/AddBook";
+import UserBookList from "./components/Book/UserBookList";
 
 const App = () => {
   window.onbeforeunload = (event) => {
@@ -33,9 +36,11 @@ const App = () => {
             <Switch>
               <Route path="/" exact component={Welcome} />
               <Route path="/home" exact component={Home} />
-              <Route path="/add" exact component={Book} />
+              <Route path="/add" exact component={AddBook} />
               <Route path="/edit/:id" exact component={Book} />
               <Route path="/list" exact component={BookList} />
+              <Route path="/shop" exact component={UserBookList} />
+              <Route path="/cart" exact component={CartList} />
               <Route path="/users" exact component={UserList} />
               <Route path="/register" exact component={Register} />
               <Route path="/login" exact component={Login} />

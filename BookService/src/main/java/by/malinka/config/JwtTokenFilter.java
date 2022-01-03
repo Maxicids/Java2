@@ -20,9 +20,9 @@ import io.jsonwebtoken.Claims;
 
 public class JwtTokenFilter extends OncePerRequestFilter {
 
-	private static Logger log = LoggerFactory.getLogger(JwtTokenFilter.class);
+	private static final Logger log = LoggerFactory.getLogger(JwtTokenFilter.class);
 
-	private JwtTokenProvider tokenProvider;
+	private final JwtTokenProvider tokenProvider;
 
 	public JwtTokenFilter(JwtTokenProvider tokenProvider) {
 		this.tokenProvider = tokenProvider;

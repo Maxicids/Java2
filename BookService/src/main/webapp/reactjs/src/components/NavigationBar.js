@@ -3,11 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faUserPlus,
-  faSignInAlt,
-  faSignOutAlt,
-} from "@fortawesome/free-solid-svg-icons";
+import {faUserPlus, faSignInAlt, faSignOutAlt,} from "@fortawesome/free-solid-svg-icons";
 import { logoutUser } from "../services/index";
 
 const NavigationBar = () => {
@@ -36,8 +32,11 @@ const NavigationBar = () => {
     const userLinks = (
         <>
             <Nav className="mr-auto">
-                <Link to={"list"} className="nav-link">
+                <Link to={"shop"} className="nav-link">
                     Book List
+                </Link>
+                <Link to={"cart"} className="nav-link">
+                    Cart
                 </Link>
             </Nav>
             <Nav className="navbar-right">

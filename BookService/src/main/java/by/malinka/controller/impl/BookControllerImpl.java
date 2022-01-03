@@ -1,9 +1,9 @@
 package by.malinka.controller.impl;
 
-import java.util.Arrays;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
+import by.malinka.service.exception.book.BookNotFoundException;
+import by.malinka.service.exception.user.UserValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,26 +11,31 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import by.malinka.domain.Book;
 import by.malinka.controller.Controller;
 import by.malinka.service.IPageService;
 import by.malinka.service.IService;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/books")
 @CrossOrigin(origins="http://localhost:3000")
 public class BookControllerImpl implements Controller<Book> {
-	
+
+	private final IService<Book> bookService;
+	private final IPageService<Book> bookPageService;
+
 	@Autowired
-	private IService<Book> bookService;
-	
-	@Autowired
-	private IPageService<Book> bookPageService;
+	public BookControllerImpl(IService<Book> bookService, IPageService<Book> bookPageService) {
+		this.bookService = bookService;
+		this.bookPageService = bookPageService;
+	}
 
 	@Override
 	public ResponseEntity<Page<Book>> findAll(Pageable pageable, String searchText) {
@@ -49,16 +54,30 @@ public class BookControllerImpl implements Controller<Book> {
 
 	@Override
 	public ResponseEntity<Book> findById(Long id) {
-		return new ResponseEntity<>(bookService.findById(id).get(), HttpStatus.OK);
+		Optional<Book> optionalBook = bookService.findById(id);
+		if (optionalBook.isEmpty()) {
+			throw new BookNotFoundException("Book with id: " + id + " does not exists");
+		}
+		return new ResponseEntity<>(optionalBook.get(), HttpStatus.OK);
 	}
 
 	@Override
-	public ResponseEntity<Book> save(Book book) {
+	public ResponseEntity<Book> save(@Valid Book book, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			throw new UserValidationException(
+					Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage()
+			);
+		}
 		return new ResponseEntity<>(bookService.saveOrUpdate(book), HttpStatus.CREATED);
 	}
 
 	@Override
-	public ResponseEntity<Book> update(Book book) {
+	public ResponseEntity<Book> update(@Valid Book book, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			throw new UserValidationException(
+					Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage()
+			);
+		}
 		return new ResponseEntity<>(bookService.saveOrUpdate(book), HttpStatus.OK);
 	}
 

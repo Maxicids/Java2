@@ -24,6 +24,7 @@ export const registerUser = (userObject) => async (dispatch) => {
   dispatch(userRequest());
   try {
     const response = await axios.post(REGISTER_URL, userObject);
+    console.log(userObject);
     dispatch(userSavedSuccess(response.data));
     return Promise.resolve(response.data);
   } catch (error) {

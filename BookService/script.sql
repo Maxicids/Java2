@@ -36,10 +36,25 @@ create table Users
 )
 go
 
+create table Cart
+(
+	id bigint primary key not null identity(0, 1),
+	customer bigint not null foreign key references Users(id),
+	book bigint not null foreign key references Books(id)
+)
+
+SET @varchar = '44123';
+DECLARE @int AS int;
+set @int = CONVERT(INT, '44123');
+PRINT @int;
+
+insert into Cart values (1, 200) , (1, 250)
+
+select * from Cart;
+
 select * from Users
 select * from Books
 
-insert into Roles values ('jopa1'), ('jopa2');
 -- delete from Roles;
 -- delete from users;
 -- delete from books;

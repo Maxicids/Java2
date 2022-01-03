@@ -46,19 +46,15 @@ class UserServiceImplTest {
     }
 
     @Test
-    void saveOrUpdate() {
-        when(userRepository.save(user))
-                .thenReturn(user);
-        Assertions.assertEquals(user, userService.saveOrUpdate(user));
-    }
-
-    @Test
     void deleteById() throws JSONException {
         doNothing().when(userRepository).deleteById(any(Long.class));
         Assertions.assertEquals(new JSONObject().put("message", "User deleted successfully").toString(), userService.deleteById(any(Long.class)));
     }
 
-    @Test
-    void findByEmail() {
-    }
+//    @Test
+//    void findByEmail() {
+//        when(userRepository.findByEmail(any(String.class)))
+//                .thenReturn(Optional.of(user));
+//        Assertions.assertEquals(Optional.of(user), userService.findByEmail(any(Long.class)));
+//    }
 }

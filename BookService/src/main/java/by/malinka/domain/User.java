@@ -1,6 +1,10 @@
 package by.malinka.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "USERS")
@@ -9,14 +13,25 @@ public class User {
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	@Column(name = "id", insertable = false, updatable = false)
 	private Long id;
+
+	@NotNull(message = "Name is required")
+	@Pattern(regexp = "[a-zA-Z]{1,40}", message = "Name can contain only letters")
 	@Column(nullable = false)
 	private String name;
+
+	@Email
+	@NotNull(message = "Email must be present")
 	@Column(nullable = false)
 	private String email;
+
+	@NotNull(message = "Mobile must be present")
 	@Column(nullable = false)
 	private String mobile;
+
+	@NotNull(message = "Password is required")
 	@Column(nullable = false)
 	private String password;
+
 	@ManyToOne
 	@JoinColumn(name = "role_id", referencedColumnName = "id")
 	private Role role;
@@ -81,4 +96,5 @@ public class User {
 		this.password = password;
 		this.role = role;
 	}
+
 }

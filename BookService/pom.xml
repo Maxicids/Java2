@@ -44,6 +44,12 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.20</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
@@ -56,6 +62,11 @@
 			<scope>test</scope>
 		</dependency>
 
+<!--		<dependency>-->
+<!--			<groupId>io.swagger</groupId>-->
+<!--			<artifactId>swagger-annotations</artifactId>-->
+<!--			<version>1.6.1</version>-->
+<!--		</dependency>-->
 		<!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
@@ -109,13 +120,97 @@
 			<artifactId>jjwt</artifactId>
 			<version>0.9.1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.5.2</version>
+		</dependency>
+		<!--logging-->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.15</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.14.1</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>2.0.1.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.14.1</version>
+		</dependency>
+		<!--logging-->
+<!--		<dependency>-->
+<!--			<groupId>io.swagger.core.v3</groupId>-->
+<!--			<artifactId>swagger-annotations</artifactId>-->
+<!--			<version>2.1.6</version>-->
+<!--		</dependency>-->
+<!--		&lt;!&ndash;Open API&ndash;&gt;-->
 	</dependencies>
-
 	<build>
 		<plugins>
+<!--			<plugin>-->
+<!--				<groupId>org.openapitools</groupId>-->
+<!--				<artifactId>openapi-generator-maven-plugin</artifactId>-->
+<!--				<version>3.3.4</version>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<phase>compile</phase>-->
+<!--						<goals>-->
+<!--							<goal>generate</goal>-->
+<!--						</goals>-->
+<!--						<configuration>-->
+<!--							<generatorName>spring</generatorName>-->
+<!--							<inputSpec>${project.basedir}/src/main/resources/api.yaml</inputSpec>-->
+<!--							<output>${project.build.directory}/generated-sources</output>-->
+<!--							<apiPackage>com.api</apiPackage>-->
+<!--							<modelPackage>com.model</modelPackage>-->
+<!--							<supportingFilesToGenerate>-->
+<!--								ApiUtil.java-->
+<!--							</supportingFilesToGenerate>-->
+<!--							<configOptions>-->
+<!--								<groupId>${project.groupId}</groupId>-->
+<!--								<artifactId>${project.artifactId}</artifactId>-->
+<!--								<artifactVersion>${project.version}</artifactVersion>-->
+<!--								<delegatePattern>true</delegatePattern>-->
+<!--								<sourceFolder>swagger</sourceFolder>-->
+<!--								<library>spring-mvc</library>-->
+<!--								<interfaceOnly>true</interfaceOnly>-->
+<!--								<useBeanValidation>true</useBeanValidation>-->
+<!--								<dateLibrary>java8</dateLibrary>-->
+<!--								<java8>true</java8>-->
+<!--							</configOptions>-->
+<!--							<ignoreFileOverride>${project.basedir}/.openapi-generator-ignore</ignoreFileOverride>-->
+<!--						</configuration>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>11</source>
+					<target>11</target>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

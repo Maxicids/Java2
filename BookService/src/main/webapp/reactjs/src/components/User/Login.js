@@ -1,22 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import {
-  Row,
-  Col,
-  Card,
-  Form,
-  InputGroup,
-  FormControl,
-  Button,
-  Alert,
-} from "react-bootstrap";
+import {Row, Col, Card, Form, InputGroup, FormControl, Button, Alert,} from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faSignInAlt,
-  faEnvelope,
-  faLock,
-  faUndo,
-} from "@fortawesome/free-solid-svg-icons";
+import {faSignInAlt, faEnvelope, faLock, faUndo,} from "@fortawesome/free-solid-svg-icons";
 import { authenticateUser } from "../../services/index";
 
 const Login = (props) => {

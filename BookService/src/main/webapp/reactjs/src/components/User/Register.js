@@ -7,7 +7,7 @@ import {
   Form,
   InputGroup,
   FormControl,
-  Button,
+  Button, Alert,
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -44,7 +44,7 @@ const Register = (props) => {
   const saveUser = () => {
     dispatch(registerUser(user))
       .then((response) => {
-        setShow(true);
+        //setShow(true);
         setMessage(response.message);
         resetRegisterForm();
         setTimeout(() => {
@@ -53,7 +53,8 @@ const Register = (props) => {
         }, 2000);
       })
       .catch((error) => {
-        console.log(error);
+        setShow(true);
+        setMessage(error.response.data.message);
       });
   };
 
@@ -64,7 +65,7 @@ const Register = (props) => {
   return (
     <div>
       <div style={{ display: show ? "block" : "none" }}>
-        <MyToast show={show} message={message} type={"success"} />
+        <MyToast show={show} message={message} type={"danger"} />
       </div>
       <Row className="justify-content-md-center">
         <Col xs={5}>
