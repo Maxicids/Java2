@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
-import { connect } from "react-redux";
-import {saveBook, fetchBook, updateBook, fetchLanguages, fetchGenres,} from "../../services/index";
+import {connect, useDispatch} from "react-redux";
+import {saveBook, fetchBook, updateBook, fetchLanguages, fetchGenres, registerUser,} from "../../services/index";
 
 import { Card, Form, Button, Col, InputGroup, Image } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -112,16 +112,26 @@ class AddBook extends Component {
             language: this.state.language,
             genre: this.state.genre,
         };
+        const dispatch = useDispatch();
 
-        this.props.saveBook(book);
-        setTimeout(() => {
-            if (this.props.bookObject.book != null) {
-                this.setState({ show: true, method: "post" });
-                setTimeout(() => this.setState({ show: false }), 3000);
-            } else {
-                this.setState({ show: false });
+
+        dispatch(saveBook(book)).then(
+            () => {
+                this.setState({show: true, method: "post", message: "Book Saved Successfully."});
+                setTimeout(() => this.setState({show: false}), 3000);
             }
-        }, 2000);
+        ).catch((error) => {
+            this.setState({show: true, method: "put", message: error.response.data.message});
+        });
+
+        // setTimeout(() => {
+        //     if (this.props.bookObject.book != null) {
+        //         this.setState({ show: true, method: "post", message: "Book Saved Successfully." });
+        //         setTimeout(() => this.setState({ show: false }), 3000);
+        //     } else {
+        //         this.setState({ show: true, method: "put", message: "Book Saved Successfully." });
+        //     }
+        // }, 2000);
         this.setState(this.initialState);
     };
 
@@ -169,12 +179,8 @@ class AddBook extends Component {
                 <div style={{ display: this.state.show ? "block" : "none" }}>
                     <MyToast
                         show={this.state.show}
-                        message={
-                            this.state.method === "put"
-                                ? "Book Updated Successfully."
-                                : "Book Saved Successfully."
-                        }
-                        type={"success"}
+                        message={this.state.message}
+                        type={this.state.method = "post" ? "success" : "danger"}
                     />
                 </div>
                 <Card className={"border border-dark bg-dark text-white"}>
@@ -280,11 +286,14 @@ class AddBook extends Component {
                                         value={language || ''}
                                         className={"bg-dark text-white"}
                                     >
-                                        {this.state.languages.map((language) => (
-                                            <option key={language.value || ''} value={language.value || ''}>
-                                                {language.display}
-                                            </option>
-                                        ))}
+                                        {<option key={"English"} value={"English"}>English</option>}
+                                        {<option key={"Russian"} value={"Russian"}>Russian</option>}
+                                        {<option key={"French"} value={"French"}>French</option>}
+                                        {<option key={"Portuguese"} value={"Portuguese"}>Portuguese</option>}
+                                        {<option key={"Hindi"} value={"Hindi"}>Hindi</option>}
+                                        {<option key={"Arabic"} value={"Arabic"}>Arabic</option>}
+                                        {<option key={"Spanish"} value={"Spanish"}>Spanish</option>}
+                                        {<option key={"Chinese"} value={"Chinese"}>Chinese</option>}
                                     </Form.Control>
                                 </Form.Group>
                                 <Form.Group as={Col} controlId="formGridGenre">
@@ -298,11 +307,13 @@ class AddBook extends Component {
                                         value={genre || ''}
                                         className={"bg-dark text-white"}
                                     >
-                                        {this.state.genres.map((genre) => (
-                                            <option key={genre.value || ''} value={genre.value || ''}>
-                                                {genre.display}
-                                            </option>
-                                        ))}
+                                        {<option key={"Technology"} value={"Technology"}>Technology</option>}
+                                        {<option key={"Science"} value={"Science"}>Science</option>}
+                                        {<option key={"History"} value={"History"}>History</option>}
+                                        {<option key={"Fantasy"} value={"Fantasy"}>Fantasy</option>}
+                                        {<option key={"Biography"} value={"Biography"}>Biography</option>}
+                                        {<option key={"Horror"} value={"Horror"}>Horror</option>}
+                                        {<option key={"Romance"} value={"Romance"}>Romance</option>}
                                     </Form.Control>
                                 </Form.Group>
                             </Form.Row>
