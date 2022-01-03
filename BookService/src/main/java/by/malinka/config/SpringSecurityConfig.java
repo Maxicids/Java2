@@ -57,12 +57,13 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 				.authorizeRequests()
 				.antMatchers("/user/*").permitAll()
-				.antMatchers("/api-docs",
+				/*.antMatchers("/api-docs",
 						"/configuration/ui",
 						"/swagger-resources/**",
 						"/configuration/security",
+						"/book-service.html",
 						"/swagger-ui.html",
-						"/webjars/**").permitAll()
+						"/webjars/**").permitAll()*/
 				.anyRequest().authenticated();
 		http.apply(new JwtTokenConfigurer(tokenProvider));
 	}
